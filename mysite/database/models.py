@@ -16,22 +16,23 @@ class UserProfile(Base):
     __tablename__ = 'users'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    phono_number: Mapped[str | None] = mapped_column(String, nullable=True, unique=True)
-    role:Mapped[RoleChoices] = mapped_column(Enum(RoleChoices),default=RoleChoices.client)
+    first_name: Mapped[str] = mapped_column(String(50))
+    last_name: Mapped[str] = mapped_column(String(50))
+    user_name: Mapped[str] = mapped_column(String(50), unique=True)
+    email: Mapped[str] = mapped_column(String, unique=True)
+    age: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    phone_number: Mapped[str | None] = mapped_column(String, nullable=True, unique=True)
+    role: Mapped[RoleChoices] = mapped_column(Enum(RoleChoices), default=RoleChoices.client)
     password: Mapped[str] = mapped_column(String)
     avatar: Mapped[str | None] = mapped_column(String, nullable=True)
-    email: Mapped[str] = mapped_column(String, unique=True)
-    data_registered:Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
-    owner:Mapped[List['Store']] = relationship(back_populates='owner',cascade='all,delete-orphan')
-    courier:Mapped[List['Order']] = relationship(back_populates='courier_order',cascade='all,delete-orphan')
-    user_courier_product:Mapped[List['CourierProduct']] = relationship(back_populates='user_courier',cascade='all,delete-orphan')
-    review_client:Mapped[List['Review']] = relationship(back_populates='client',cascade='all,delete-orphan',  foreign_keys='Review.client_id')
-    courier_review:Mapped[List['Review']] = relationship(back_populates='courier',cascade='all,delete-orphan',foreign_keys='Review.courier_id')
-    user_token: Mapped[List['RefreshToken']] = relationship("RefreshToken", back_populates='token_user',
-                                                            cascade='all,delete-orphan')
-    cart_user:Mapped[List['Cart']] = relationship(back_populates='user',cascade='all,delete-orphan')
-
-
+    data_registered: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    owner: Mapped[List['Store']] = relationship(back_populates='owner', cascade='all,delete-orphan')
+    courier: Mapped[List['Order']] = relationship(back_populates='courier_order', cascade='all,delete-orphan')
+    user_courier_product: Mapped[List['CourierProduct']] = relationship(back_populates='user_courier', cascade='all,delete-orphan')
+    review_client: Mapped[List['Review']] = relationship(back_populates='client', cascade='all,delete-orphan', foreign_keys='Review.client_id')
+    courier_review: Mapped[List['Review']] = relationship(back_populates='courier', cascade='all,delete-orphan', foreign_keys='Review.courier_id')
+    user_token: Mapped[List['RefreshToken']] = relationship("RefreshToken", back_populates='token_user', cascade='all,delete-orphan')
+    cart_user: Mapped[List['Cart']] = relationship(back_populates='user', cascade='all,delete-orphan')
 
 class Category(Base):
     __tablename__ = 'category'
