@@ -1,16 +1,20 @@
-import uvicorn
-from  fastapi import  FastAPI
-from  mysite.api import users,product,review,order,contact,category,store,auth
-
-glovo_app = FastAPI(title='Glovo', debug=True)
-glovo_app.include_router(users.user_router)
-glovo_app.include_router(product.product_router)
-glovo_app.include_router(review.review_router)
-glovo_app.include_router(contact.contact_router)
-glovo_app.include_router(store.store_router)
-glovo_app.include_router(category.category_router)
-glovo_app.include_router(order.order_router)
-glovo_app.include_router(auth.auth_router)
-
-if __name__ == '__main__':
-    uvicorn.run(glovo_app, host='127.0.0.1', port=8000)
+from sqladmin import Admin
+from mysite.database.db import engine
+from mysite.views import (
+    UserProfileAdmin, CategoryAdmin, StoreAdmin, ContactAdmin,
+    AddressAdmin, StoreMenuAdmin, ProductAdmin, OrderAdmin,
+    CourierProductAdmin, ReviewAdmin, CartAdmin, CartItemAdmin
+)
+admin = Admin(glovo_app, engine)
+admin.add_view(UserProfileAdmin)
+admin.add_view(CategoryAdmin)
+admin.add_view(StoreAdmin)
+admin.add_view(ContactAdmin)
+admin.add_view(AddressAdmin)
+admin.add_view(StoreMenuAdmin)
+admin.add_view(ProductAdmin)
+admin.add_view(OrderAdmin)
+admin.add_view(CourierProductAdmin)
+admin.add_view(ReviewAdmin)
+admin.add_view(CartAdmin)
+admin.add_view(CartItemAdmin)
